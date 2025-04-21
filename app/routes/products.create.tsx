@@ -1,4 +1,11 @@
 import { Form, useNavigate } from "@remix-run/react";
+import { ActionFunction } from "@remix-run/node";
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const title = formData.get("title");
+  return Response.json(title, { status: 200 });
+}
 
 export default function CreateProduct() {
   const navigate = useNavigate();

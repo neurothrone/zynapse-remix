@@ -1,6 +1,6 @@
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunction, ActionFunctionArgs } from "@remix-run/node";
 
-export const action = async ({ params }: ActionFunctionArgs) => {
+export const action: ActionFunction = async ({ params }: ActionFunctionArgs) => {
   const id: string | undefined = params.id;
   if (id) {
     await fetch(`https://fakestoreapi.com/products/${id}`, {
@@ -8,5 +8,5 @@ export const action = async ({ params }: ActionFunctionArgs) => {
     });
   }
 
-  return Response.redirect("/products");
+  return Response.json(null, { status: 200 });
 }
