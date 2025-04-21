@@ -1,6 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import Product from "~/types/product";
+import { useState } from "react";
 
 
 export const loader: LoaderFunction = async () => {
@@ -16,6 +17,11 @@ export const loader: LoaderFunction = async () => {
 
 export default function Products() {
   const products: Product[] = useLoaderData<typeof loader>();
+  const [query, setQuery] = useState("");
+
+  const filteredProducts = products.filter((product) => {
+    return product.title.toLowerCase().includes(query.toLowerCase());
+  });
 
   return (
     <>
@@ -32,9 +38,14 @@ export default function Products() {
           Create
         </Link>
         <hr className="my-2"/>
+        <input
+          type="text"
+          placeholder="Search"
+          onChange={(event) => setQuery(event.target.value)}
+        />
         <nav>
           <ul>
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <li key={product.id}>
                 <Link
                   to={`${product.id}`}
